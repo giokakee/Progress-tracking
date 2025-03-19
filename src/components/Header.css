@@ -1,0 +1,59 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  color: #7d3cff;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.logo span {
+  margin-left: 5px;
+}
+
+.buttons {
+  display: flex;
+  gap: 40px;
+}
+
+.add-employee {
+  border: 1px solid #7d3cff;
+  color: #7d3cff;
+  padding: 8px 12px;
+  border-radius: 5px;
+  background: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.add-employee:hover {
+  background-color: #f0e6ff;
+}
+
+.add-assignment {
+  background-color: #7d3cff;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.add-assignment:hover {
+  background-color: #652ecc;
+}
+
+.add-assignment,
+.add-employee {
+  text-decoration: none;
+}

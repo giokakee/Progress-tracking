@@ -1,0 +1,98 @@
+.assignment-filter {
+  width: 700px;
+  height: 50px;
+  border: 1px solid #dee2e6;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  padding: 0px 25px 0px 25px;
+  margin-bottom: 100px;
+}
+
+.assignment-filter select {
+  margin-right: 10px;
+}
+
+.avatar {
+  height: 28px;
+  width: 28px;
+  border-radius: 20px;
+}
+
+.dropdown {
+  border: 1px solid #8338ec;
+  border-radius: 10px;
+  background-color: white;
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  width: 700px;
+  max-height: 200px;
+  left: 0px;
+  overflow: auto;
+  margin-top: 35px;
+  padding: 20px 20px 10px 20px;
+}
+
+.dropdown label {
+  width: auto;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.dropdown label input {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #000;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  cursor: pointer;
+  position: relative;
+}
+
+.dropdown label input:checked {
+  background-color: #8338ec;
+  border-color: #8338ec;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dropdown label input:checked::after {
+  content: "✔";
+  color: white;
+  font-size: 16px;
+  position: absolute;
+}
+
+.apply-filters {
+  display: flex;
+  justify-content: end;
+  position: relative;
+}
+
+.filter-button {
+  outline: none;
+  border: none;
+  background: content-box;
+  cursor: pointer;
+  color: #8338ec;
+  font-size: 16px;
+}
+
+.apply-filters button {
+  font-size: 16px;
+  width: 155px;
+  color: white;
+  background-color: #8338ec;
+  border: none;
+  padding: 10px 20px 10px 20px;
+  border-radius: 10px;
+}

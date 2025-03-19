@@ -1,0 +1,111 @@
+.assignment-card {
+  width: 300px;
+  border: 2px solid #f3c653;
+  border-radius: 10px;
+  padding: 15px;
+  background-color: #fff;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.assignment-header {
+  background-color: #f3c653;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  padding: 8px;
+  border-radius: 5px;
+}
+
+.assignment-tags {
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tag {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 75px;
+  padding: 5px 10px;
+  border: 0.5px solid;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: bold;
+  margin-right: 5px;
+}
+.tag-container {
+  display: flex;
+  position: relative;
+  cursor: pointer;
+}
+
+.tag-hover {
+  display: none;
+}
+
+.department:hover + .tag-hover {
+  display: block;
+  position: absolute;
+  padding: 5px 20px 5px 20px;
+  background-color: #40262c;
+  position: absolute;
+  top: -65px;
+  left: 165px;
+  border-radius: 20px;
+  color: rgb(234, 234, 234);
+}
+
+.department {
+  border: 1px solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+  width: 105px;
+}
+
+.priority {
+  font-size: 12px;
+}
+
+.pink {
+  background-color: #f78da7;
+  color: white;
+}
+
+.assignment-date {
+  font-size: 12px;
+  color: gray;
+  float: right;
+}
+
+.assignment-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.assignment-description {
+  font-size: 14px;
+  color: #555;
+}
+
+.assignment-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.profile-img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.comment-count {
+  font-size: 14px;
+  color: gray;
+}

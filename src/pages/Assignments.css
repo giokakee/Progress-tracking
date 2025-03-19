@@ -1,0 +1,71 @@
+.assignments-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.assignments-grid {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  min-width: 1000px;
+}
+
+.category-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.assignment-card {
+  width: 100%;
+}
+
+.assignment-card {
+  margin-top: 27px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 335px;
+  background: #f9f9f9;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.assignment-title {
+  font-weight: bold;
+}
+
+.assignment-date {
+  font-size: 12px;
+  color: gray;
+}
+
+.category-header {
+  width: 335px;
+  height: 54px;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  padding: 2px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.category-section:nth-child(1) > :first-child {
+  background-color: #f7bc30;
+}
+.category-section:nth-child(2) > :first-child {
+  background-color: #fb5607;
+}
+.category-section:nth-child(3) > :first-child {
+  background-color: #ff006e;
+}
+.category-section:nth-child(4) > :first-child {
+  background-color: #3a86ff;
+}
