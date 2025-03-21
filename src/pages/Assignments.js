@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "./Assignments.css";
 import { fetchStatuses } from "../api/axios";
-import SingleAssignment from "../components/SingleAssignment";
+import SingleAssignment from "../components/AssignmentCard.js";
 import FilterDropdown from "../components/FilterDropdown.js";
 import { useDispatch, useSelector } from "react-redux";
 import { loadAssignments } from "../features/assignmentSlice";
+import { useNavigate } from "react-router-dom";
 
 const Assignments = () => {
   const [statuses, setStatuses] = useState([]);
   // const []
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {
     data: assignments,
     filteredData,
@@ -44,9 +46,7 @@ const Assignments = () => {
               </div>
               <div className="assignment-cards">
                 <SingleAssignment
-                  assignments={
-                    filteredData.length > 0 ? filteredData : assignments
-                  }
+                  assignments={filteredData}
                   category={category}
                 />
               </div>

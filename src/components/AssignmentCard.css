@@ -1,3 +1,6 @@
+.assignment-cards {
+  margin-top: 40px;
+}
 .assignment-card {
   width: 300px;
   border: 2px solid #f3c653;
@@ -5,6 +8,8 @@
   padding: 15px;
   background-color: #fff;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  margin-bottom: 20px;
 }
 
 .assignment-header {
@@ -94,18 +99,29 @@
 
 .assignment-footer {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
   margin-top: 10px;
+  width: 500px;
+}
+
+.assignment-footer div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.assignment-footer p {
+  font-size: 16px;
+  color: #474747;
+}
+
+.comment-section {
+  width: 200px;
+  height: 200px;
+  border: 1px solid;
 }
 
 .profile-img {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-}
-
-.comment-count {
-  font-size: 14px;
-  color: gray;
 }

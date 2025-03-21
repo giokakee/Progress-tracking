@@ -3,14 +3,17 @@ import "./CreateEmployee.css";
 import { useDispatch, useSelector } from "react-redux";
 import { loadFilters } from "../features/filterSlice";
 
+import { createEmployee } from "../api/axios";
+
 const CreateEmployee = ({ isOpen, onClose }) => {
   const [visible, setVisible] = useState(isOpen);
-  const [avatar, setAvatar] = useState(null);
   const [employee, setEmployee] = useState({
     name: "",
     surname: "",
     department: "",
+    avatar: null,
   });
+  const [avatarToShow, setAvatarToShow] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -36,16 +39,33 @@ const CreateEmployee = ({ isOpen, onClose }) => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setAvatar(reader.result);
+        setAvatarToShow(reader.result);
+        setEmployee({ ...employee, avatar: event.target.files[0] });
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const handleFormSubmit = (event) => {
+  const handleChange = (e, name) => {
+    setEmployee({ ...employee, [name]: e.target.value });
+  };
+
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
 
-    console.log(employee, avatar);
+    const formdata = new FormData();
+    formdata.append("name", employee.name);
+    formdata.append("surname", employee.surname);
+    formdata.append("department_id", employee.department);
+    formdata.append("avatar", employee.avatar);
+    try {
+      const response = await createEmployee(formdata);
+
+      console.log(response);
+      // console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -67,7 +87,7 @@ const CreateEmployee = ({ isOpen, onClose }) => {
                 min={2}
                 max={255}
                 onChange={(e) =>
-                  setEmployee({ ...employee, name: e.target.value })
+                  handleChange(e, "name", employee.name, setEmployee)
                 }
                 value={employee.name}
                 required
@@ -84,7 +104,7 @@ const CreateEmployee = ({ isOpen, onClose }) => {
                 max={255}
                 value={employee.surname}
                 onChange={(e) =>
-                  setEmployee({ ...employee, surname: e.target.value })
+                  handleChange(e, "surname", employee.surname, setEmployee)
                 }
                 required
               />
@@ -95,12 +115,12 @@ const CreateEmployee = ({ isOpen, onClose }) => {
           <div className="avatar-upload">
             <label>ავატარი*</label>
             <div className="avatar-box">
-              {avatar ? (
+              {avatarToShow ? (
                 <div className="avatar-preview">
-                  <img src={avatar} alt="Avatar Preview" />
+                  <img src={avatarToShow} alt="Avatar Preview" />
                   <button
                     className="delete-btn"
-                    onClick={() => setAvatar(null)}
+                    onClick={() => setAvatarToShow(null)}
                   >
                     🗑
                   </button>
@@ -131,7 +151,13 @@ const CreateEmployee = ({ isOpen, onClose }) => {
             <button className="cancel-btn" onClick={onClose}>
               გაუქმება
             </button>
-            <button className="submit-btn" onClick={handleFormSubmit}>
+            <button
+              className="submit-btn"
+              onClick={() => {
+                handleFormSubmit();
+                onClose();
+              }}
+            >
               დამატე თანამშრომელი
             </button>
           </div>

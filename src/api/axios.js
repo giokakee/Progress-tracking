@@ -85,4 +85,40 @@ export const departmentColors = {
   [7]: "#9e3668",
 };
 
+export const createEmployee = async (data) => {
+  try {
+    const response = await api.post("/employees", data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data", error);
+    throw error;
+  }
+};
+
+export const fetchOneAssignment = async (id) => {
+  try {
+    const response = await api.get(`/tasks/${id}`);
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data", error);
+    throw error;
+  }
+};
+
+export const fetchComments = async (id) => {
+  try {
+    const response = await api.get(`tasks/${id}/comments`);
+
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
 export default api;

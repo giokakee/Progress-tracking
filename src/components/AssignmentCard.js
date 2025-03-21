@@ -1,14 +1,20 @@
 import React from "react";
-import "./SingleAssignment.css";
+import "./AssignmentCard.css";
 import { priorityColors, departmentColors } from "../api/axios";
+import { useNavigate } from "react-router-dom";
 
-export default function SingleAssignment({ assignments, category }) {
+export default function AssignmentCard({ assignments, category }) {
+  const navigate = useNavigate();
   return (
     <>
       {assignments
         .filter((assignment) => assignment.status.id === category.id)
         .map((assignment) => (
-          <div className="assignment-card" key={assignment.id}>
+          <div
+            className="assignment-card"
+            key={assignment.id}
+            onClick={() => navigate(`/assignment/${assignment.id}`)}
+          >
             <div className="assignment-content">
               <div className="assignment-tags">
                 <div className="tag-container">

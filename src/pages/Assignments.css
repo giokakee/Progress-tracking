@@ -15,23 +15,6 @@
   flex-direction: column;
   align-items: center;
 }
-.assignment-card {
-  width: 100%;
-}
-
-.assignment-card {
-  margin-top: 27px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 335px;
-  background: #f9f9f9;
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 5px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-}
 
 .assignment-title {
   font-weight: bold;

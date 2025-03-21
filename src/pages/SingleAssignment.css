@@ -1,0 +1,33 @@
+.single-assignment-container {
+  display: flex;
+  margin-top: 35px;
+  justify-content: space-between;
+}
+
+.comment-section {
+  width: 750px;
+  min-height: 1000px;
+  border: 1px solid;
+  background-color: #ddd2ff;
+
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  overflow: auto;
+}
+
+.assignment-icons {
+  display: flex;
+  align-items: center;
+}
+
+.assignment-icons svg {
+  margin-right: 10px;
+}
+
+.comment-header img,
+.subcomments-header img {
+  width: 40px;
+  height: 40px;
+  border-radius: 40px;
+}

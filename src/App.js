@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import Assignments from "./pages/Assignments";
-import SingleAssignment from "./pages/SingleAssignmentPage";
+import SingleAssignment from "./pages/SingleAssignment";
 import CreateAssignment from "./pages/CreateAssignment";
 import MainLayout from "./layout/MainLayout";
 
