@@ -5,9 +5,12 @@ import {
   fetchOneAssignment,
   priorityColors,
   fetchComments,
+  commentAssignment,
+  fetchStatuses,
+  updateStatus,
 } from "../api/axios";
 import "./SingleAssignment.css";
-import { PieChart, User, Calendar } from "lucide-react";
+import { PieChart, User, Calendar, CornerUpLeft } from "lucide-react";
 
 function SingleAssignment({}) {
   const { id } = useParams();
@@ -15,6 +18,11 @@ function SingleAssignment({}) {
   const [newComment, setNewComment] = useState("");
   const [comments, setComments] = useState([]);
   const [replyIsOpen, setReplyIsOpen] = useState(false);
+  const [replies, setReplies] = useState({});
+  const [statuses, setStatuses] = useState([]);
+  const [newStatus, setNewStatus] = useState({});
+
+  const [error, setError] = useState(true);
 
   useEffect(() => {
     const fetchAssignment = async () => {
@@ -22,10 +30,14 @@ function SingleAssignment({}) {
         const commentsData = await fetchComments(id);
         const response = await fetchOneAssignment(id);
 
+        const statusesData = await fetchStatuses();
+        setStatuses(statusesData);
         setComments(commentsData);
         setAssignment(response);
+        setError(false);
       } catch (error) {
-        throw error;
+        setError(true);
+        console.log(error);
       }
     };
 
@@ -51,19 +63,70 @@ function SingleAssignment({}) {
     }/${date.getFullYear()}`;
   };
 
-  const handleComment = () => {
-    console.log(newComment, " this should be a comment");
+  const handleComment = async () => {
+    try {
+      const addComment = await commentAssignment(id, {
+        text: newComment,
+        task_id: id,
+      });
+      console.log(addComment, " this shoould be an comment");
+      const newComments = [addComment, ...comments];
+      setComments(newComments);
+      setNewComment("");
+    } catch (error) {
+      console.log(error);
+      setError("errorrrrr");
+    }
   };
 
-  const handleReply = async () => {
-    console.log("this is handle replyyy");
+  const handleReplyChange = (commentId, value) => {
+    setReplies((prev) => ({
+      ...prev,
+      [commentId]: value, // Store reply text based on comment ID
+    }));
+  };
+
+  const handleReply = async (commentId) => {
+    try {
+      const addReply = await commentAssignment(id, {
+        text: replies[commentId],
+        task_id: id,
+        parent_id: commentId,
+      });
+
+      const newReply = comments.map((comment) => {
+        if (
+          comment.id === commentId &&
+          comment.hasOwnProperty("sub_comments")
+        ) {
+          comment.sub_comments.push(addReply);
+        } else {
+          comment["sub_comments"] = [addReply];
+        }
+
+        return comment;
+      });
+
+      setComments(newReply);
+    } catch (error) {
+      throw error;
+    }
     setReplyIsOpen(false);
   };
 
-  console.log(assignment);
+  const handleStatusChange = async (e) => {
+    try {
+      await updateStatus(id, e.target.value);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  if (error) return <h2>{"There is no task lik this"}</h2>; // Show error if data is not found
+
   return (
     <div className="single-assignment-container">
-      {assignment.id && (
+      {assignment && (
         <div className="single-assignment">
           <div className="assignment-content">
             <div className="assignment-tags">
@@ -107,25 +170,33 @@ function SingleAssignment({}) {
                   <PieChart size={24} />
                   <p>სტატუსი</p>
                 </div>
-                <select>
-                  <option>აირჩიეთ სტატუსი</option>
+                <select onChange={handleStatusChange}>
+                  <option>{assignment.status.name}</option>
+                  {statuses.map((status) => {
+                    return (
+                      <option key={status.id} value={status.id}>
+                        {status.name}
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
 
-              <div>
+              <div className="single-assignment-employee">
                 <div className="assignment-icons">
                   <User size={24} />
                   <p>თანამშრომელი</p>
                 </div>
-                <img
-                  src={assignment.employee.avatar}
-                  alt="User"
-                  className="profile-img"
-                />
-                <span>{assignment.department.name}</span>
-                <span>
-                  {assignment.employee.name} {assignment.employee.surname}
-                </span>
+                <div className="single-assignment-employee-avatar">
+                  <img
+                    src={assignment.employee.avatar}
+                    alt="User"
+                    className="profile-img"
+                  />
+                  <span>
+                    {assignment.employee.name} {assignment.employee.surname}
+                  </span>
+                </div>
               </div>
 
               <div>
@@ -139,75 +210,99 @@ function SingleAssignment({}) {
           </div>
         </div>
       )}
-      <div className="comment-section">
-        <div>
-          <textarea
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            placeholder="დაწერე კომენტარი"
-          />
-          <button onClick={handleComment}>კომენტარის დამატება</button>
-        </div>
 
-        <div>
-          <h3>კომენტარები</h3>
-          {comments.length &&
-            comments.map((comment) => {
-              return (
-                <div key={comment.id} className="comment-box">
-                  <div className="comment-header">
-                    <img src={comment.author_avatar} />
-                    <p>{comment.author_nickname}</p>
-                  </div>
+      {assignment && (
+        <div className="comment-section">
+          <div className="comment-input">
+            <textarea
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              placeholder="დაწერე კომენტარი"
+            />
+            <button onClick={handleComment}>დააკომენტარე</button>
+          </div>
 
-                  <div className="comment-main">
-                    <p>{comment.text}</p>
-                    <div className="reply">
-                      {!replyIsOpen ? (
-                        <button onClick={() => setReplyIsOpen(true)}>
-                          უპასუხე
-                        </button>
-                      ) : (
-                        <div>
-                          <button onClick={() => setReplyIsOpen(false)}>
-                            X
-                          </button>
-                          <textarea />
+          <div>
+            <h3>
+              კომენტარები <span>{comments.length}</span>
+            </h3>
+            {comments.length &&
+              comments.map((comment) => {
+                return (
+                  <div key={comment.id} className="comment-box">
+                    <div className="comment-main">
+                      <div className="comment-header">
+                        <img src={comment.author_avatar} />
+                        <p className="comment-author">
+                          {comment.author_nickname}
+                        </p>
+                      </div>
+                      <div className="comment-content">
+                        <p>{comment.text}</p>
+                        <div className="reply">
+                          {!replyIsOpen ? (
+                            <button onClick={() => setReplyIsOpen(true)}>
+                              <CornerUpLeft />
+                              უპასუხე
+                            </button>
+                          ) : (
+                            <div className="reply-input">
+                              <textarea
+                                value={replies[comment.id] || ""}
+                                onChange={(e) =>
+                                  handleReplyChange(comment.id, e.target.value)
+                                }
+                              />
+                              <div>
+                                <button
+                                  onClick={() => setReplyIsOpen(false)}
+                                  className="close-button"
+                                  style={{ color: "red" }}
+                                >
+                                  გაუქმება
+                                </button>
 
-                          <button className="replyButton" onClick={handleReply}>
-                            უპასუხე
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="comment-footer">
-                    <div className="comment-subcomments">
-                      {comment.sub_comments.length &&
-                        comment.sub_comments.map((subComment) => {
-                          return (
-                            <div
-                              key={subComment.id}
-                              className="subcomments-box"
-                            >
-                              <div className="subcomments-header">
-                                <img src={subComment.author_avatar} />
-                                <p>{subComment.author_nickname}</p>
-                              </div>
-                              <div className="subcomments-main">
-                                <p>{subComment.text}</p>
+                                <button
+                                  className="replyButton"
+                                  onClick={() => handleReply(comment.id)}
+                                >
+                                  დააკომენტარე
+                                </button>
                               </div>
                             </div>
-                          );
-                        })}
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="comment-footer">
+                      <div className="comment-subcomments">
+                        {comment.sub_comments &&
+                          comment.sub_comments.length > 0 &&
+                          comment.sub_comments.map((subComment) => {
+                            return (
+                              <div
+                                key={subComment.id}
+                                className="subcomments-box"
+                              >
+                                <div className="subcomments-header">
+                                  <img src={subComment.author_avatar} />
+                                  <p>{subComment.author_nickname}</p>
+                                </div>
+                                <p className="subcomment-text">
+                                  {subComment.text}
+                                </p>
+                              </div>
+                            );
+                          })}
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

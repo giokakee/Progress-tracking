@@ -26,7 +26,6 @@ export const fetchSelectOptions = async () => {
     };
   } catch (error) {
     console.error("Error fetching data", error);
-    throw error;
   }
 };
 
@@ -36,7 +35,6 @@ export const fetchAssignments = async () => {
     return response.data;
   } catch (error) {
     console.error("Error fetching data", error);
-    throw error;
   }
 };
 
@@ -46,7 +44,6 @@ export const fetchStatuses = async () => {
     return response.data;
   } catch (error) {
     console.log(error);
-    throw error;
   }
 };
 
@@ -65,7 +62,6 @@ export const fetchFilters = async () => {
     };
   } catch (error) {
     console.error("Error fetching data", error);
-    throw error;
   }
 };
 
@@ -95,7 +91,6 @@ export const createEmployee = async (data) => {
     return response.data;
   } catch (error) {
     console.error("Error fetching data", error);
-    throw error;
   }
 };
 
@@ -106,7 +101,6 @@ export const fetchOneAssignment = async (id) => {
     return response.data;
   } catch (error) {
     console.error("Error fetching data", error);
-    throw error;
   }
 };
 
@@ -117,7 +111,24 @@ export const fetchComments = async (id) => {
     return response.data;
   } catch (err) {
     console.log(err);
-    throw err;
+  }
+};
+
+export const commentAssignment = async (id, data) => {
+  try {
+    const response = await api.post(`tasks/${id}/comments`, data);
+    return response.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const updateStatus = async (taskId, statusId) => {
+  try {
+    const response = await api.put(`/tasks/${taskId}`, { status_id: statusId });
+    return response.data;
+  } catch (err) {
+    console.log(err);
   }
 };
 
