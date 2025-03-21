@@ -29,6 +29,15 @@ export const fetchSelectOptions = async () => {
   }
 };
 
+export const createAssignment = async (data) => {
+  try {
+    const response = await api.post("/tasks", data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data", error);
+  }
+};
+
 export const fetchAssignments = async () => {
   try {
     const response = await api.get("/tasks");
@@ -41,6 +50,15 @@ export const fetchAssignments = async () => {
 export const fetchStatuses = async () => {
   try {
     const response = await api.get("/statuses");
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchAllEmployee = async () => {
+  try {
+    const response = await api.get("/employees");
     return response.data;
   } catch (error) {
     console.log(error);
